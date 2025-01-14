@@ -1,0 +1,17 @@
+{
+  "name": "render_engine",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "render_engine_bg.wasm",
+    "render_engine.js",
+    "render_engine_bg.js",
+    "render_engine.d.ts"
+  ],
+  "main": "render_engine.js",
+  "types": "render_engine.d.ts",
+  "sideEffects": [
+    "./render_engine.js",
+    "./snippets/*"
+  ]
+}

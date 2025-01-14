@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { initRenderer } from '../../../projects/rust/src/public-api';
-
-
+import { main } from './render';
 
 @Component({
   selector: 'app-canvas',
@@ -12,7 +10,7 @@ import { initRenderer } from '../../../projects/rust/src/public-api';
   styleUrl: './canvas.component.scss',
 })
 export class CanvasComponent {
-  ngOnInit() {
-    initRenderer().then(() => "Wasm Loaded");
+  ngAfterViewInit() {
+    main();
   }
 }

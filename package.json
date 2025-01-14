@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "build:wasm": "cd render_engine && wasm-pack build --target bundler --out-dir ../src/app/canvas/render --dev && cd ../src/app/canvas/render && rm .gitignore"
   },
   "private": true,
   "dependencies": {
@@ -19,8 +19,7 @@
     "@angular/platform-browser-dynamic": "^18.2.0",
     "@angular/router": "^18.2.0",
     "rxjs": "~7.8.0",
-    "tslib": "^2.3.0",
-    "zone.js": "~0.14.10"
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.2.7",

@@ -22,5 +22,8 @@
   "editor.trimAutoWhitespace": true, // Remove trailing whitespace automatically
   "files.trimTrailingWhitespace": true, // Trim trailing whitespace in all files
   "files.insertFinalNewline": true, // Ensure a newline at the end of files
-  "files.autoSave": "onFocusChange" // Save files automatically when focus changes
+  "files.autoSave": "afterDelay",
+  "[rust]": {
+    "editor.defaultFormatter": "rust-lang.rust-analyzer"
+  } // Save files automatically when focus changes
 }
