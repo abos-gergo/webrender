@@ -20,6 +20,14 @@ pub struct Mesh {
     pub index_count: u32,
 }
 
+#[derive(Default, Debug, Clone, Copy)]
+pub struct BoundingCircle {
+    pub middle: Vector3<f32>,
+    pub radius: f32,
+    pub min: Vector3<f32>,
+    pub max: Vector3<f32>,
+}
+
 impl Mesh {
     pub fn render(&self, render_pass: &mut RenderPass) {
         render_pass.set_vertex_buffer(0, self.vertex_buffer.slice(..));
@@ -49,7 +57,7 @@ impl Mesh {
         }
     }
 
-    pub fn get_bounding_circle(&self) {
+    pub fn get_bounding_circle(&self, pos: Vector3<f32>) -> BoundingCircle {
         let Vertex {
             position: mut min, ..
         } = self.vertex_data[0];
@@ -75,11 +83,14 @@ impl Mesh {
             }
         }
 
-        let lens = max - min;
-        let max_len = lens.iter().max_by(|x, y| x.total_cmp(y)).unwrap();
+        let side_lengths = max - min;
 
-        let middle = Vector3::new(max_len / 2., max_len / 2., max_len / 2.);
-        let radius_squared = (middle - min).magnitude_squared();
+        BoundingCircle {
+            radius: (side_lengths / 2.).magnitude(),
+            middle: side_lengths / 2. + min + pos,
+            min,
+            max,
+        }
     }
 
     pub fn quad(device: &wgpu::Device) -> Self {
