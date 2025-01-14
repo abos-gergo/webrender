@@ -1,1 +1,8 @@
-<canvas id="main-canvas"></canvas>
+<canvas
+  id="main-canvas"
+  appFileDrop
+  (fileDropped)="onFilesDropped($event)"
+  (dragOver)="onDragOver($event)"
+  (dragLeave)="onDragLeave($event)"
+  [style.background-color]="'black'"
+></canvas>
