@@ -1,0 +1,17 @@
+{
+  "name": "gamy_game",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "gamy_game_bg.wasm",
+    "gamy_game.js",
+    "gamy_game_bg.js",
+    "gamy_game.d.ts"
+  ],
+  "main": "gamy_game.js",
+  "types": "gamy_game.d.ts",
+  "sideEffects": [
+    "./gamy_game.js",
+    "./snippets/*"
+  ]
+}

@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:wasm": "cd rust && wasm-pack build --target bundler --out-dir ../src/app/canvas/engine --dev && cd ../src/app/canvas/engine && rm .gitignore",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

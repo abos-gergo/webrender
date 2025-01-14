@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FileDropDirective } from '../directives/file-drop.directive';
+import { main } from './engine';
 
 @Component({
   selector: 'app-canvas',
@@ -9,6 +10,10 @@ import { FileDropDirective } from '../directives/file-drop.directive';
   styleUrl: './canvas.component.scss',
 })
 export class CanvasComponent {
+  ngAfterViewInit() {
+    main();
+  }
+
   onFilesDropped(files: File[]): void {
     console.log('Files dropped:', files);
   }
