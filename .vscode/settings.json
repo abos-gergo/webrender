@@ -1,0 +1,26 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode", // Use Prettier as the default formatter
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode" // Prettier for SCSS
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode" // Prettier for JavaScript
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode" // Prettier for TypeScript
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode" // Prettier for HTML
+  },
+
+  "prettier.tabWidth": 2, // Set tab width to 2 spaces
+  "prettier.singleQuote": true, // Use single quotes
+  "prettier.trailingComma": "es5", // Add trailing commas where valid in ES5
+  "editor.formatOnSave": true, // Automatically format files when saving
+  "editor.formatOnPaste": true, // Automatically format content when pasting
+  "editor.formatOnType": true, // Format as you type
+  "editor.trimAutoWhitespace": true, // Remove trailing whitespace automatically
+  "files.trimTrailingWhitespace": true, // Trim trailing whitespace in all files
+  "files.insertFinalNewline": true, // Ensure a newline at the end of files
+  "files.autoSave": "onFocusChange" // Save files automatically when focus changes
+}
