@@ -91,6 +91,45 @@
           }
         }
       }
+    },
+    "rust": {
+      "projectType": "library",
+      "root": "projects/rust",
+      "sourceRoot": "projects/rust/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/rust/ng-package.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "projects/rust/src/lib/render_engine/pkg"
+              }
+            ]
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/rust/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/rust/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/rust/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
     }
   },
   "schematics": {
