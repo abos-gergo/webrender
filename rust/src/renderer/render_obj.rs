@@ -1,9 +1,13 @@
 use nalgebra::Matrix4;
 
-use crate::{engine::helpers::NoneValue, models::MeshIndex};
+use crate::{
+    engine::helpers::NoneValue,
+    models::{Mesh, MeshIndex},
+};
 
 use super::{uniforms::ModelData, Renderer, MAX_MESH_COUNT};
 
+#[derive(Debug, Clone, Copy, Default)]
 pub struct RenderObjIndex(pub usize);
 
 #[derive(Clone, Copy, Default, Debug)]
@@ -76,6 +80,10 @@ impl RenderObj {
     pub fn transform(&self) -> &Matrix4<f32> {
         &self.model_data.transform
     }
+
+    pub fn set_mesh(&mut self, mesh: usize) {
+        self.mesh = MeshIndex::new(mesh);
+    }
 }
 
 impl Renderer {
@@ -84,8 +92,8 @@ impl Renderer {
         let index = self.render_objects.push(renderobj);
         self.render_objects[index].index = index;
 
-        self.render_objects[index].model_data.obj_index =
-            (index + 1) as f32 / MAX_MESH_COUNT as f32;
+        // self.render_objects[index].model_data.obj_index =
+        //     (index + 1) as f32 / MAX_MESH_COUNT as f32;
 
         if staged {
             self.stage_render_obj(index);

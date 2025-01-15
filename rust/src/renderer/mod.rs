@@ -1,13 +1,14 @@
 use std::{mem::size_of, num::NonZeroU64, sync::Arc};
 
 use nalgebra::Vector2;
-use render_obj::RenderObj;
+use render_obj::{RenderObj, RenderObjIndex};
 use texture::{Texture, DEPTH_FORMAT};
 use uniforms::{ModelData, SceneData};
 use vertex::Vertex;
 use wgpu::Limits;
 use winit::{dpi::PhysicalSize, window::Window};
 
+pub mod gizmo;
 mod render;
 pub mod render_obj;
 pub mod texture;
@@ -37,6 +38,10 @@ pub struct Renderer {
     pub scene_unifrom_buffer: wgpu::Buffer,
     pub model_uniform_buffer: wgpu::Buffer,
     model_uniform_buffer_view: AlignedArray<ModelData>,
+
+    gizmos: Vec<usize>,
+    show_gizmos: bool,
+
     pub(super) render_objects: ObjVec<RenderObj>,
     pub(super) staged_indices: Vec<u16>,
     pub meshes: Vec<Mesh>,
@@ -259,6 +264,7 @@ impl Renderer {
         let meshes = vec![
             load_model!("../models/monek/Object.obj", &device),
             load_model!("../models/cube/Object.obj", &device),
+            load_model!("../models/gizmo/Object.obj", &device),
             Mesh::quad(&device),
         ];
 
@@ -279,6 +285,8 @@ impl Renderer {
             model_uniform_buffer_view: AlignedArray::<ModelData>::default(),
             meshes,
             render_objects: ObjVec::with_capacity(MAX_MESH_COUNT as _),
+            gizmos: Default::default(),
+            show_gizmos: true,
             staged_indices: Vec::with_capacity(MAX_MESH_COUNT as _),
             window_size: Default::default(),
 

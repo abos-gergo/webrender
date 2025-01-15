@@ -1,3 +1,5 @@
+use nalgebra::Vector4;
+
 use crate::renderer::{render_obj::RenderObjIndex, vertex::Vertex};
 
 use super::{event_handler::Input, helpers::collisions::circle_point_collision, Engine};
@@ -23,20 +25,46 @@ impl ClickResult {
 }
 
 impl Engine {
-    pub fn get_detected_objs(&self) {
-        let objs = self.renderer.staged_indices.iter().filter_map(|&i| {
-            let o = RenderObjIndex(i as usize).get(&self.renderer);
+    pub fn detected_objs(&mut self) {
+        let objs = self
+            .renderer
+            .staged_indices
+            .iter()
+            .filter_map(|&i| {
+                let o = RenderObjIndex(i as usize).get(&self.renderer);
 
-            let bc = o.mesh.bounding_circle(&self.renderer);
+                let bc = o.mesh.bounding_circle(&self.renderer);
 
-            match circle_point_collision(
-                bc.middle.xy(),
-                bc.radius * self.globals.camera().scale(),
-                Input::relative_mouse_pos(),
-            ) {
-                true => Some(o),
-                false => None,
-            }
-        });
+                match circle_point_collision(
+                    bc.middle.xy(),
+                    bc.radius * self.globals.camera().scale(),
+                    Input::relative_mouse_pos(),
+                ) {
+                    true => Some(*o),
+                    false => None,
+                }
+            })
+            .map(|o| {
+                o.mesh
+                    .get_ref(&self.renderer)
+                    .vertex_data
+                    .iter()
+                    .filter_map(|&v| {
+                        let transformed_pos = (o.model_data.transform
+                            * Vector4::new(v.position.x, v.position.y, v.position.z, 1.))
+                        .xyz();
+
+                        match circle_point_collision(
+                            transformed_pos.xy(),
+                            0.1,
+                            Input::relative_mouse_pos(),
+                        ) {
+                            true => Some(v.clone()),
+                            false => None,
+                        }
+                    })
+                    .collect::<Vec<_>>()
+            })
+            .collect::<Vec<_>>();
     }
 }

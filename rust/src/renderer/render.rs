@@ -68,6 +68,24 @@ impl Renderer {
                     .set_index_buffer(mesh.index_buffer.slice(..), wgpu::IndexFormat::Uint32);
                 render_pass.draw_indexed(0..mesh.index_count, 0, 0..1);
             });
+
+            if self.show_gizmos {
+                self.gizmos.iter().for_each(|i| {
+                    let mesh = &self.meshes[self.render_objects[*i as usize].mesh.index()];
+                    let obj = self.render_objects[*i as usize];
+                    self.model_uniform_buffer_view[obj.index] = obj.model_data;
+
+                    render_pass.set_bind_group(
+                        1,
+                        &self.model_bind_group,
+                        &[self.dynamic_offset * obj.index as u32],
+                    );
+                    render_pass.set_vertex_buffer(0, mesh.vertex_buffer.slice(..));
+                    render_pass
+                        .set_index_buffer(mesh.index_buffer.slice(..), wgpu::IndexFormat::Uint32);
+                    render_pass.draw_indexed(0..mesh.index_count, 0, 0..1);
+                });
+            }
         }
 
         output

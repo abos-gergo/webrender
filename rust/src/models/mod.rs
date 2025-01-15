@@ -18,7 +18,7 @@ use crate::{
 #[derive(Debug, Clone, Copy, Default)]
 pub struct MeshIndex(usize);
 
-impl MeshIndex {
+impl<'a> MeshIndex {
     pub fn new(i: usize) -> Self {
         Self(i)
     }
@@ -29,6 +29,10 @@ impl MeshIndex {
 
     pub fn index(&self) -> usize {
         self.0
+    }
+
+    pub fn get_ref(&self, r: &'a Renderer) -> &'a Mesh {
+        &r.meshes[self.index()]
     }
 }
 

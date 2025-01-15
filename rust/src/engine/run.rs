@@ -20,6 +20,7 @@ impl Engine {
         let mut now = Instant::now();
 
         self.scenes[self.current_scene].init(&mut self.renderer, &self.globals);
+
         event_loop.run(move |event, elwt| {
             elwt.set_control_flow(winit::event_loop::ControlFlow::Poll);
             match event {
@@ -112,7 +113,7 @@ impl Engine {
                 winit::event::Event::AboutToWait => {
                     self.globals.cam_mut().cam_move();
 
-                    self.get_detected_objs();
+                    // self.detected_objs();
 
                     if let Some(op) =
                         self.scenes[self.current_scene].main_loop(&mut self.renderer, &self.globals)

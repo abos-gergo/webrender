@@ -1,4 +1,4 @@
-use nalgebra::{Matrix, Matrix4, Vector3};
+use nalgebra::{Matrix4, Vector3, Vector4};
 
 #[repr(C)]
 pub struct SceneData {
@@ -12,14 +12,14 @@ pub struct SceneData {
 #[derive(Debug, Clone, Copy)]
 pub struct ModelData {
     pub transform: Matrix4<f32>,
-    pub obj_index: f32,
+    pub color: [f32; 4],
 }
 
 impl Default for ModelData {
     fn default() -> Self {
         Self {
             transform: Matrix4::identity(),
-            obj_index: 0.,
+            color: [4. / 255., 8. / 255., 12. / 255., 1.],
         }
     }
 }
