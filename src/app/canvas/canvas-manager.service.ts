@@ -1,20 +1,16 @@
 import {
-  Injectable,
-  ViewContainerRef,
-  ComponentFactoryResolver,
-  ComponentRef,
+  Injectable
 } from '@angular/core';
-import { CanvasComponent } from './canvas.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CanvasManagerService {
-  constructor() {}
+  idTracker: number = 0
+  constructor() { }
 
-  public createCanvas(
-    viewContainerRef: ViewContainerRef
-  ): ComponentRef<CanvasComponent> {
-    return viewContainerRef.createComponent(CanvasComponent);
+  getNewId(): number {
+    this.idTracker += 1
+    return this.idTracker
   }
 }

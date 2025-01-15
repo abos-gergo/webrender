@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { FileDropDirective } from '../directives/file-drop.directive';
 import { main } from './engine';
+import { CanvasManagerService } from './canvas-manager.service';
 
 @Component({
   selector: 'app-canvas',
@@ -10,6 +11,13 @@ import { main } from './engine';
   styleUrl: './canvas.component.scss',
 })
 export class CanvasComponent {
+  canvasId!: number
+
+  constructor(private canvasManager: CanvasManagerService) { }
+
+  ngOnInit() {
+    this.canvasId = this.canvasManager.getNewId()
+  }
   ngAfterViewInit() {
     main();
   }

@@ -1,5 +1,6 @@
 import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { CanvasManagerService } from '../../canvas/canvas-manager.service';
+import { CanvasComponent } from '../../canvas/canvas.component';
 
 @Component({
   selector: 'app-home',
@@ -9,12 +10,10 @@ import { CanvasManagerService } from '../../canvas/canvas-manager.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  constructor(
-    private canvasManager: CanvasManagerService,
-    private containerRef: ViewContainerRef
-  ) {}
-
+  @ViewChild('canvasSpawn', { read: ViewContainerRef }) canvasSpawnRef!: ViewContainerRef;
   createCanvas() {
-    this.canvasManager.createCanvas(this.containerRef);
+    console.log(this.canvasSpawnRef);
+
+    return this.canvasSpawnRef.createComponent(CanvasComponent);
   }
 }
