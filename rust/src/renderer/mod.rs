@@ -37,8 +37,8 @@ pub struct Renderer {
     pub scene_unifrom_buffer: wgpu::Buffer,
     pub model_uniform_buffer: wgpu::Buffer,
     model_uniform_buffer_view: AlignedArray<ModelData>,
-    render_objects: ObjVec<RenderObj>,
-    staged_indices: Vec<u16>,
+    pub(super) render_objects: ObjVec<RenderObj>,
+    pub(super) staged_indices: Vec<u16>,
     pub meshes: Vec<Mesh>,
 
     pub scene_bind_group: wgpu::BindGroup,

@@ -1,6 +1,7 @@
 use std::mem::size_of;
 
 pub mod aligned_array;
+pub mod collisions;
 pub mod object_vector;
 pub mod staging;
 

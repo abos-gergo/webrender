@@ -10,7 +10,27 @@ use wgpu::{
     RenderPass,
 };
 
-use crate::{engine::helpers::AsByteSlice, renderer::vertex::Vertex};
+use crate::{
+    engine::helpers::AsByteSlice,
+    renderer::{vertex::Vertex, Renderer},
+};
+
+#[derive(Debug, Clone, Copy, Default)]
+pub struct MeshIndex(usize);
+
+impl MeshIndex {
+    pub fn new(i: usize) -> Self {
+        Self(i)
+    }
+
+    pub fn bounding_circle(&self, r: &Renderer) -> BoundingCircle {
+        r.meshes[self.0].bounding_circle
+    }
+
+    pub fn index(&self) -> usize {
+        self.0
+    }
+}
 
 pub struct Mesh {
     pub vertex_buffer: wgpu::Buffer,
@@ -18,6 +38,7 @@ pub struct Mesh {
     pub index_data: Vec<u32>,
     pub index_buffer: wgpu::Buffer,
     pub index_count: u32,
+    pub bounding_circle: BoundingCircle,
 }
 
 #[derive(Default, Debug, Clone, Copy)]
@@ -48,16 +69,20 @@ impl Mesh {
             usage: wgpu::BufferUsages::INDEX,
         });
 
-        Self {
+        let mut s = Self {
             vertex_buffer,
             vertex_data: vertices.to_vec(),
             index_data: indices.to_vec(),
             index_buffer,
             index_count: indices.len() as u32,
-        }
+            bounding_circle: Default::default(),
+        };
+
+        s.bounding_circle = s.calc_bounding_circle();
+        s
     }
 
-    pub fn get_bounding_circle(&self, pos: Vector3<f32>) -> BoundingCircle {
+    pub fn calc_bounding_circle(&self) -> BoundingCircle {
         let Vertex {
             position: mut min, ..
         } = self.vertex_data[0];
@@ -87,7 +112,7 @@ impl Mesh {
 
         BoundingCircle {
             radius: (side_lengths / 2.).magnitude(),
-            middle: side_lengths / 2. + min + pos,
+            middle: side_lengths / 2. + min,
             min,
             max,
         }
@@ -120,6 +145,7 @@ impl Mesh {
             index_count: indices.len() as u32,
             vertex_data: vertices,
             index_data: indices,
+            bounding_circle: Default::default(),
         }
     }
 

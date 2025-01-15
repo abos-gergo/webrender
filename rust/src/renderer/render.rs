@@ -54,7 +54,7 @@ impl Renderer {
             render_pass.set_pipeline(&self.pipeline);
             render_pass.set_bind_group(0, &self.scene_bind_group, &[]);
             self.staged_indices.iter().for_each(|i| {
-                let mesh = &self.meshes[self.render_objects[*i as usize].mesh as usize];
+                let mesh = &self.meshes[self.render_objects[*i as usize].mesh.index()];
                 let obj = self.render_objects[*i as usize];
                 self.model_uniform_buffer_view[obj.index] = obj.model_data;
 

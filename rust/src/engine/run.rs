@@ -1,10 +1,17 @@
+use nalgebra::Vector2;
 use wasm_bindgen_futures::spawn_local;
 use web_time::Instant;
-use winit::{dpi::PhysicalSize, error::EventLoopError, event_loop::EventLoop, keyboard::KeyCode};
+use winit::{
+    dpi::PhysicalSize, error::EventLoopError, event::MouseButton, event_loop::EventLoop,
+    keyboard::KeyCode,
+};
 
 use crate::{renderer::texture::DEPTH_FORMAT, scene::Scene};
 
-use super::{event_handler::Input, Engine};
+use super::{
+    event_handler::{EventState, Input},
+    Engine,
+};
 
 impl Engine {
     #[inline]
@@ -42,6 +49,8 @@ impl Engine {
                                 w.inner_height().unwrap().as_f64().unwrap() as u32,
                             ))
                         });
+
+                        Input::set_win_size(Vector2::new(size.width as f32, size.height as f32));
 
                         self.renderer.surface_config.width = size.width;
                         self.renderer.surface_config.height = size.height;
@@ -101,6 +110,10 @@ impl Engine {
                     _ => (),
                 },
                 winit::event::Event::AboutToWait => {
+                    self.globals.cam_mut().cam_move();
+
+                    self.get_detected_objs();
+
                     if let Some(op) =
                         self.scenes[self.current_scene].main_loop(&mut self.renderer, &self.globals)
                     {

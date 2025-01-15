@@ -1,4 +1,4 @@
-use nalgebra::Vector2;
+use nalgebra::{Vector, Vector2};
 use winit::{
     event::{ElementState, MouseButton},
     keyboard::{KeyCode, ModifiersState},
@@ -11,6 +11,7 @@ pub struct Input {
     pub modifier: ModifiersState,
     pub mouse: Mouse,
     last_modified_keys: Vec<u8>,
+    win_size: Vector2<f32>,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
@@ -34,12 +35,17 @@ impl Input {
                 delta_move: Vector2::new(0., 0.),
                 wheel: 0.,
             },
+            win_size: Vector2::new(0., 0.),
         }
     }
 
     #[inline]
     pub(super) fn set_modif(modif: ModifiersState) {
         unsafe { INPUT.modifier = modif }
+    }
+    #[inline]
+    pub(super) fn set_win_size(win_size: Vector2<f32>) {
+        unsafe { INPUT.win_size = win_size }
     }
 
     #[inline]
@@ -159,14 +165,22 @@ impl Input {
         unsafe { INPUT.mouse.delta_move }
     }
 
-    // TODO store window pos in event handler
-    // #[inline]
-    // pub fn get_relative_mouse_position(base: &Base) -> Vector2<f32> {
-    //     Vector2::new(
-    //         (unsafe { INPUT.mouse.pos.x } / base.window.inner_size().width as f32) * 2. - 1.,
-    //         (unsafe { INPUT.mouse.pos.y } / base.window.inner_size().height as f32) * 2. - 1.,
-    //     )
-    // }
+    #[inline]
+    pub fn mouse_pos() -> Vector2<f32> {
+        unsafe { INPUT.mouse.pos }
+    }
+
+    #[inline]
+    pub fn relative_mouse_pos() -> Vector2<f32> {
+        unsafe {
+            INPUT
+                .mouse
+                .pos
+                .component_div(&INPUT.win_size)
+                .component_mul(&Vector2::new(2., 2.))
+                - Vector2::new(1., 1.)
+        }
+    }
 
     fn get_mouse_button_state(button: MouseButton) -> EventState {
         unsafe { INPUT.mouse.buttons[*(&button as *const _ as *const u8) as usize] }

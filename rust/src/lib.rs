@@ -9,7 +9,7 @@ pub mod scene;
 
 #[cfg(target_arch = "wasm32")]
 #[wasm_bindgen]
-pub async fn main() {
+pub async fn main(id: &str) {
     use std::sync::Arc;
 
     use winit::{dpi::PhysicalSize, platform::web::WindowBuilderExtWebSys};
@@ -29,7 +29,7 @@ pub async fn main() {
     let mut window_builder = WindowBuilder::new();
     let doc = web_sys::window().unwrap().document().unwrap();
     let canvas = doc
-        .get_element_by_id("main-canvas")
+        .get_element_by_id(id)
         .unwrap()
         .dyn_into::<web_sys::HtmlCanvasElement>()
         .unwrap();

@@ -11,7 +11,7 @@ import { main } from './engine';
 })
 export class CanvasComponent {
   ngAfterViewInit() {
-    main();
+    main('main-canvas');
   }
 
   onFilesDropped(files: File[]): void {

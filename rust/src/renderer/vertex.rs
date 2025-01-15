@@ -4,7 +4,7 @@ use nalgebra::Vector3;
 use wgpu::vertex_attr_array;
 
 #[repr(C)]
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct Vertex {
     pub position: Vector3<f32>,
     pub color: Vector3<f32>,

@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export const memory: WebAssembly.Memory;
-export const main: () => any;
+export const main: (a: number, b: number) => any;
 export const wgpu_render_bundle_set_pipeline: (a: number, b: bigint) => void;
 export const wgpu_render_bundle_set_bind_group: (a: number, b: number, c: bigint, d: number, e: number) => void;
 export const wgpu_render_bundle_set_vertex_buffer: (a: number, b: number, c: bigint, d: bigint, e: bigint) => void;

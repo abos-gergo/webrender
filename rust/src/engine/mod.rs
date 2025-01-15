@@ -1,3 +1,5 @@
+pub mod camera;
+pub mod click_detection;
 pub mod control_flow;
 pub mod event_handler;
 pub mod helpers;

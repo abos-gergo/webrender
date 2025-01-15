@@ -1,17 +1,14 @@
-use camera::Camera;
 use nalgebra::Vector3;
 use sun::Sun;
-
-pub mod camera;
 pub mod sun;
+
 use crate::{
-    engine::{control_flow::EngineOp, globals::Globals, transformations::Transformations},
+    engine::{control_flow::EngineOp, globals::Globals},
     renderer::{render_obj::RenderObjIndex, uniforms::SceneData, Renderer},
 };
 
 #[derive(Default)]
 pub struct Scene {
-    camera: Camera,
     sun: Sun,
     rotation: f32,
     moneks: Vec<RenderObjIndex>,
@@ -22,7 +19,7 @@ impl Scene {
         r.update(
             &r.scene_unifrom_buffer,
             &SceneData {
-                camera_transfrom: *self.camera.get_transform(),
+                camera_transfrom: *g.camera().get_transform(),
                 width_height_ratio: r.window_size.x / r.window_size.y,
                 sun_transform: self.sun.transform,
                 sun_pos: self.sun.position,
@@ -34,7 +31,6 @@ impl Scene {
     }
 
     pub fn main_loop(&mut self, r: &mut Renderer, g: &Globals) -> Option<EngineOp> {
-        self.camera.cam_move();
         self.rotation += g.delta_time();
 
         self.moneks.iter().for_each(|m| {
@@ -45,7 +41,6 @@ impl Scene {
     }
 
     pub fn init(&mut self, r: &mut Renderer, g: &Globals) {
-        self.camera = Camera::init(Vector3::zeros(), 1.);
         self.sun = Sun::init();
 
         self.sun.position = Vector3::new(-1., 1.5, 0.);

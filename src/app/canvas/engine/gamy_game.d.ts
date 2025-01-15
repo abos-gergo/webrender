@@ -1,3 +1,3 @@
 /* tslint:disable */
 /* eslint-disable */
-export function main(): Promise<void>;
+export function main(id: string): Promise<void>;

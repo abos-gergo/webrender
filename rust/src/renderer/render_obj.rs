@@ -1,14 +1,14 @@
 use nalgebra::Matrix4;
 
-use crate::engine::helpers::NoneValue;
+use crate::{engine::helpers::NoneValue, models::MeshIndex};
 
 use super::{uniforms::ModelData, Renderer, MAX_MESH_COUNT};
 
-pub struct RenderObjIndex(usize);
+pub struct RenderObjIndex(pub usize);
 
 #[derive(Clone, Copy, Default, Debug)]
 pub struct RenderObj {
-    pub mesh: usize,
+    pub mesh: MeshIndex,
     pub model_data: ModelData,
     pub index: usize,
 }
@@ -33,15 +33,18 @@ impl RenderObjIndex {
     pub fn get_mut<'a>(&self, r: &'a mut Renderer) -> &'a mut RenderObj {
         &mut r.render_objects[self.0]
     }
+
     #[inline]
     pub fn destroy(&self, r: &mut Renderer) {
         self.unstage(r);
         r.render_objects.remove(self.0);
     }
+
     #[inline]
     pub fn stage(&self, r: &mut Renderer) {
         r.staged_indices.push(self.0 as u16);
     }
+
     #[inline]
     pub fn unstage(&self, r: &mut Renderer) {
         if let Some((i, _)) = r
@@ -58,7 +61,7 @@ impl RenderObjIndex {
 impl RenderObj {
     pub fn new(mesh: usize) -> Self {
         Self {
-            mesh,
+            mesh: MeshIndex::new(mesh),
             model_data: ModelData::default(),
             index: 0,
         }
