@@ -1,11 +1,20 @@
-import { Component } from '@angular/core';
-import { CanvasComponent } from '../../canvas/canvas.component';
+import { Component, ViewChild, ViewContainerRef } from '@angular/core';
+import { CanvasManagerService } from '../../canvas/canvas-manager.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CanvasComponent],
+  imports: [],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
+  styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent {}
+export class HomeComponent {
+  constructor(
+    private canvasManager: CanvasManagerService,
+    private containerRef: ViewContainerRef
+  ) {}
+
+  createCanvas() {
+    this.canvasManager.createCanvas(this.containerRef);
+  }
+}

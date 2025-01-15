@@ -2,6 +2,7 @@ import {
   Injectable,
   ViewContainerRef,
   ComponentFactoryResolver,
+  ComponentRef,
 } from '@angular/core';
 import { CanvasComponent } from './canvas.component';
 
@@ -11,6 +12,9 @@ import { CanvasComponent } from './canvas.component';
 export class CanvasManagerService {
   constructor() {}
 
-  //TODO
-  // public createCanvas(viewContainerRef: ViewContainerRef): CanvasComponent {}
+  public createCanvas(
+    viewContainerRef: ViewContainerRef
+  ): ComponentRef<CanvasComponent> {
+    return viewContainerRef.createComponent(CanvasComponent);
+  }
 }
