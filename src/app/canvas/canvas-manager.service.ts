@@ -1,9 +1,8 @@
-import {
-  Injectable,
-  ViewContainerRef,
-  ComponentFactoryResolver,
-  ComponentRef,
-} from '@angular/core';
+// THIS MANAGER IS NOT BEING USED AS OF NOW
+// WORK ON THIS ONCE MULTI-CANVAS RENDER IS IMPLEMENTED
+
+/*
+import { Injectable, ViewContainerRef, ComponentRef } from '@angular/core';
 import { CanvasComponent } from './canvas.component';
 
 @Injectable({
@@ -18,3 +17,4 @@ export class CanvasManagerService {
     return viewContainerRef.createComponent(CanvasComponent);
   }
 }
+*/
